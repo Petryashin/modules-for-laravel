@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Petryashin\Modules\Services\Service;
+
+class {{ classname }} extends Service
+{
+}
