@@ -1,6 +1,6 @@
 <?php
 
-namespace Petryashin\Modules\Console\Commands\Generators;
+namespace Petryashin\Modules\Generators;
 
 class ServiceGeneratorCommand extends AbstractStubCommand
 {

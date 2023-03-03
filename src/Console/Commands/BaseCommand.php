@@ -4,21 +4,18 @@ namespace Petryashin\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
+use Petryashin\Modules\Scenarios\ScenarioInterface;
 
 abstract class BaseCommand extends Command
 {
     abstract public function handle();
 
+    public function __construct(protected ScenarioInterface $scenario)
+    {
+        parent::__construct();
+    }
     protected function getModulName(): string
     {
         return Str::ucfirst(Str::lower(trim($this->argument('moduleName'))));
-    }
-
-    protected function getArguments()
-    {
-        return [
-            ['moduleName', InputArgument::REQUIRED, 'A base module name']
-        ];
     }
 }

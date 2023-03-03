@@ -2,26 +2,31 @@
 
 namespace Petryashin\Modules\Console\Commands;
 
-use Petryashin\Modules\Console\Commands\Generators\ServiceGeneratorCommand;
+use Petryashin\Modules\Generators\DTO\ScenarioDTO;
+use Petryashin\Modules\Generators\ServiceGeneratorCommand;
+use Petryashin\Modules\Scenarios\ScenarioInterface;
 
-class CreateModuleCommand extends BaseCommand
+final class CreateModuleCommand extends BaseCommand
 {
-    protected $signature = 'module:create {moduleName}';
+    private const MODULE_NAME = "moduleName";
+    protected $signature = 'module:create {' . self::MODULE_NAME . "}";
 
     public function handle()
     {
-        foreach ($this->getCommandsForCall() as $command) {
-            $this->call($command, ["moduleName" => $this->argument('moduleName')]);
-        }
+        $dto = $this->createDTO();
+
+        $this->scenario
+            ->setDTO($dto)
+            ->execute();
     }
 
-    /**
-     * @return array<string>
-     */
-    private function getCommandsForCall(): array
+    private function createDTO(): ScenarioDTO
     {
-        return [
-            ServiceGeneratorCommand::class
-        ];
+        $dto = new ScenarioDTO();
+        $dto->setModuleName($this->argument(self::MODULE_NAME));
+
+        return $dto;
     }
+
+
 }
