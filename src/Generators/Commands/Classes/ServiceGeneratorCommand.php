@@ -1,6 +1,6 @@
 <?php
 
-namespace Petryashin\Modules\Generators;
+namespace Petryashin\Modules\Generators\Commands\Classes;
 
 class ServiceGeneratorCommand extends AbstractStubCommand
 {
@@ -12,7 +12,7 @@ class ServiceGeneratorCommand extends AbstractStubCommand
     protected function getParamsForReplacement(): array
     {
         return [
-            "classname" => $this->getModulName() . $this->getCreatingClassName(),
+            "classname" => $this->getModuleName() . $this->getCreatingClassName(),
             "namespace" => $this->getFullNameSpace()
         ];
     }

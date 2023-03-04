@@ -10,11 +10,13 @@ abstract class BaseCommand extends Command
 {
     abstract public function handle();
 
-    public function __construct(protected ScenarioInterface $scenario)
+    public function __construct(
+        protected ScenarioInterface $scenario
+    )
     {
         parent::__construct();
     }
-    protected function getModulName(): string
+    protected function getModuleName(): string
     {
         return Str::ucfirst(Str::lower(trim($this->argument('moduleName'))));
     }

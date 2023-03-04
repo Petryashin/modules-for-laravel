@@ -32,7 +32,7 @@ trait FileSystemPathHelpersTrait
         return Str::ucfirst(Str::singular(Str::lower($this->getModuleType())));
     }
 
-    protected function getModulName(): string
+    public function getModuleName(): string
     {
         if (is_null($this->moduleName)) {
             throw new ModuleNameIsNotSetException();
@@ -43,7 +43,7 @@ trait FileSystemPathHelpersTrait
 
     protected function getAdditionalNameSpace($sep = "\\"): string
     {
-        $baseNameSpace = $this->getModulName();
+        $baseNameSpace = $this->getModuleName();
 
         return $sep . $baseNameSpace . $sep . $this->getModuleType();
     }

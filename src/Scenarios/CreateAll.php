@@ -2,9 +2,12 @@
 
 namespace Petryashin\Modules\Scenarios;
 
+use Petryashin\Modules\Generators\Commands\Classes\ServiceGeneratorCommand;
+use Petryashin\Modules\Generators\Commands\Directories\ActionDirectoryCommand;
 use Petryashin\Modules\Generators\Creators\CreatorInterface;
 use Petryashin\Modules\Generators\DTO\ScenarioDTO;
-use Petryashin\Modules\Generators\ServiceGeneratorCommand;
+use Petryashin\Modules\Generators\Exceptions\CreateDirectoryException;
+use Petryashin\Modules\Generators\Exceptions\CreateFileException;
 
 final class CreateAll implements ScenarioInterface
 {
@@ -18,10 +21,20 @@ final class CreateAll implements ScenarioInterface
 
     public function execute(): void
     {
-        foreach ($this->getCommandsForCall() as $command) {
+        foreach (array_merge(
+                     $this->getClassesCommandsForCall(),
+                     $this->getDirectoriesCommandsForCall()
+                 ) as $command) {
             $command = $this->creator->getGenerator($command);
 
-            $command->setModuleName($this->dto->getModuleName())->execute();
+            try {
+                $command->setModuleName($this->dto->getModuleName())->execute();
+            } catch (CreateFileException| CreateDirectoryException $systemError) {
+                dump($systemError->getMessage());
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+
         }
     }
 
@@ -35,10 +48,20 @@ final class CreateAll implements ScenarioInterface
     /**
      * @return array<string>
      */
-    private function getCommandsForCall(): array
+    private function getClassesCommandsForCall(): array
     {
         return [
             ServiceGeneratorCommand::class,
+        ];
+    }
+
+    /**
+     * @return array<string>
+     */
+    private function getDirectoriesCommandsForCall(): array
+    {
+        return [
+            ActionDirectoryCommand::class
         ];
     }
 }

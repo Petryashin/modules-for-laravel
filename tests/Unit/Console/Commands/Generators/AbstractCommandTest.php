@@ -3,17 +3,21 @@
 namespace Console\Commands\Generators;
 
 use Illuminate\Support\Str;
-use Petryashin\Modules\Console\Commands\Generators\AbstractStubCommand;
+use Petryashin\Modules\Generators\Commands\AbstractCommand;
+use Petryashin\Modules\Generators\Readers\Reader;
+use Petryashin\Modules\Generators\Writers\Writer;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-class AbstractStubCommandTest extends TestCase
+class AbstractCommandTest extends TestCase
 {
-    private AbstractStubCommand $stub;
+    private AbstractCommand $stub;
 
     public function setUp(): void
     {
-        $this->stub = $this->getMockForAbstractClass(AbstractStubCommand::class);
+        $this->stub = $this->getMockForAbstractClass(AbstractCommand::class, [
+            resolve(Writer::class), resolve(Reader::class)
+        ], mockedMethods: ["getModuleType"]);
     }
 
     public function additionProvider(): array
@@ -29,11 +33,11 @@ class AbstractStubCommandTest extends TestCase
      */
     public function testGetStubNameMethod($moduleName, $expect)
     {
-        $class = new ReflectionClass(AbstractStubCommand::class);
+        $class = new ReflectionClass(AbstractCommand::class);
         $method = $class->getMethod("getStubName");
         $method->setAccessible(true);
 
-        $this->stub->expects($this->any())->method("getModuleName")
+        $this->stub->expects($this->any())->method("getModuleType")
             ->will($this->returnValue($moduleName));
 
         $this->assertEquals($expect, $method->invokeArgs($this->stub, []));
@@ -52,13 +56,13 @@ class AbstractStubCommandTest extends TestCase
      */
     public function testGetStubContentPath($moduleName, $fileName)
     {
-        $class = new ReflectionClass(AbstractStubCommand::class);
+        $class = new ReflectionClass(AbstractCommand::class);
         $method = $class->getMethod("getStubContentPath");
         $method->setAccessible(true);
 
-        $resPath = Str::beforeLast($class->getFileName(), "AbstractStubCommand") . "stubs/" . $fileName;
+        $resPath = Str::beforeLast($class->getFileName(), "Commands") . "Traits/../stubs/" . $fileName;
 
-        $this->stub->expects($this->any())->method("getModuleName")
+        $this->stub->expects($this->any())->method("getModuleType")
             ->will($this->returnValue($moduleName));
 
         $this->assertEquals($resPath, $method->invokeArgs($this->stub, []));

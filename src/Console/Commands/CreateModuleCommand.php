@@ -3,8 +3,6 @@
 namespace Petryashin\Modules\Console\Commands;
 
 use Petryashin\Modules\Generators\DTO\ScenarioDTO;
-use Petryashin\Modules\Generators\ServiceGeneratorCommand;
-use Petryashin\Modules\Scenarios\ScenarioInterface;
 
 final class CreateModuleCommand extends BaseCommand
 {
