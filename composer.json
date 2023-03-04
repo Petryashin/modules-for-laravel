@@ -36,5 +36,5 @@
                 "Petryashin\\Modules\\Providers\\ModulesServiceProvider"
             ]
         }
-    },
+    }
 }

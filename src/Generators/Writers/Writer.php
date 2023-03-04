@@ -21,4 +21,9 @@ class Writer implements WriterInterface
             return false;
         }
     }
+
+    public function exists(string $path): bool
+    {
+        return File::exists($path);
+    }
 }
