@@ -7,6 +7,6 @@ class ActionDirectoryCommand extends AbstractDirectoryCommand
 
     protected function getModuleType(): string
     {
-        return "Actions";
+        return "Action";
     }
 }

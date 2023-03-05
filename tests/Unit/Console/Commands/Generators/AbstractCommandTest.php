@@ -24,7 +24,10 @@ class AbstractCommandTest extends TestCase
     {
         return [
             ["Tests", "test.stub"],
-            ["ASD", "asd.stub"]
+            ["ASD", "a_s_d.stub"],
+            ["ServiceProvider", "service_provider.stub"],
+            ["serviceProvider", "service_provider.stub"],
+            ["serviceProviders", "service_provider.stub"]
         ];
     }
 
@@ -43,16 +46,8 @@ class AbstractCommandTest extends TestCase
         $this->assertEquals($expect, $method->invokeArgs($this->stub, []));
     }
 
-    public function additionProvider2(): array
-    {
-        return [
-            ["Tests", "test.stub"],
-            ["ASD", "asd.stub"]
-        ];
-    }
-
     /**
-     * @dataProvider additionProvider2
+     * @dataProvider additionProvider
      */
     public function testGetStubContentPath($moduleName, $fileName)
     {
@@ -66,5 +61,20 @@ class AbstractCommandTest extends TestCase
             ->will($this->returnValue($moduleName));
 
         $this->assertEquals($resPath, $method->invokeArgs($this->stub, []));
+    }
+
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testGetStubName($moduleName, $fileName)
+    {
+        $class = new ReflectionClass(AbstractCommand::class);
+        $method = $class->getMethod("getStubName");
+        $method->setAccessible(true);
+
+        $this->stub->expects($this->any())->method("getModuleType")
+            ->will($this->returnValue($moduleName));
+
+        $this->assertEquals($fileName, $method->invokeArgs($this->stub, []));
     }
 }

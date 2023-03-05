@@ -24,12 +24,15 @@ trait FileSystemPathHelpersTrait
 
     private function getStubName(): string
     {
-        return Str::singular(Str::lower($this->getModuleType())) . ".stub";
+        return (string) Str::of($this->getModuleType())->snake()->lower()->singular()->append('.stub') ;
     }
 
     protected function getCreatingClassName(): string
     {
-        return Str::ucfirst(Str::singular(Str::lower($this->getModuleType())));
+        return $this->getModuleName()
+            . ((string)Str::of($this->getModuleType())
+                ->singular()
+                ->ucfirst());
     }
 
     public function getModuleName(): string
@@ -38,14 +41,17 @@ trait FileSystemPathHelpersTrait
             throw new ModuleNameIsNotSetException();
         }
 
-        return Str::ucfirst(Str::lower(trim($this->moduleName)));
+        return (string)Str::of($this->moduleName)
+            ->trim()
+            ->lower()
+            ->ucfirst();
     }
 
     protected function getAdditionalNameSpace($sep = "\\"): string
     {
         $baseNameSpace = $this->getModuleName();
 
-        return $sep . $baseNameSpace . $sep . $this->getModuleType();
+        return $sep . $baseNameSpace . $sep . Str::plural($this->getModuleType());
     }
 
     protected function getFullNameSpace(): string

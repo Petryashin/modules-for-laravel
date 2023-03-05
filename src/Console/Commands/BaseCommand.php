@@ -18,6 +18,8 @@ abstract class BaseCommand extends Command
     }
     protected function getModuleName(): string
     {
-        return Str::ucfirst(Str::lower(trim($this->argument('moduleName'))));
+        return (string)Str::of($this->argument('moduleName'))
+            ->lower()
+            ->ucfirst();
     }
 }

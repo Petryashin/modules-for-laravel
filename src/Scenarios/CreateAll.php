@@ -3,6 +3,7 @@
 namespace Petryashin\Modules\Scenarios;
 
 use Petryashin\Modules\Generators\Commands\Classes\ServiceGeneratorCommand;
+use Petryashin\Modules\Generators\Commands\Classes\ServiceProviderGeneratorCommand;
 use Petryashin\Modules\Generators\Commands\Directories\ActionDirectoryCommand;
 use Petryashin\Modules\Generators\Creators\CreatorInterface;
 use Petryashin\Modules\Generators\DTO\ScenarioDTO;
@@ -30,8 +31,10 @@ final class CreateAll implements ScenarioInterface
             try {
                 $command->setModuleName($this->dto->getModuleName())->execute();
             } catch (CreateFileException| CreateDirectoryException $systemError) {
+                // TODO: Refactoring
                 dump($systemError->getMessage());
             } catch (\Exception $e) {
+                // TODO: Refactoring
                 dd($e->getMessage());
             }
 
@@ -52,6 +55,7 @@ final class CreateAll implements ScenarioInterface
     {
         return [
             ServiceGeneratorCommand::class,
+            ServiceProviderGeneratorCommand::class
         ];
     }
 
