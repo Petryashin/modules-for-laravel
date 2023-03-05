@@ -1,0 +1,40 @@
+{
+    "name": "petryashin/modules",
+    "description": "moduls structure for laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Petryashin\\Modules\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Petryashin\\Modules\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Petryashin",
+            "homepage": "https://github.com/Petryashin"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "orchestra/testbench": "^7.22"
+    },
+    "scripts": {
+        "tests": "./vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Petryashin\\Modules\\Providers\\ModulesServiceProvider"
+            ]
+        }
+    }
+}
